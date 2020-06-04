@@ -2,24 +2,20 @@ import csv
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
 
-#text on image
-#afterwards figuring out how to get the image from google photos
-
-SPREADSHEET = 'assets/PWC-Spreadsheet.csv'
-PWC_CARD_INFO = [
-    "Love this portrait? Make a donation through PawsWithCause and it's yours!",
-    "T: 206-801-0220 PawsWithCause.org / All proceeds benefit shelter animals.",
-    "Join us at the Everett Mall to help paint shelter animals: No experience needed."
-]
 
 def closing_text():
-    img = Image.new('RGB', (332, 35), color=(255, 255, 255))
-    font = ImageFont.truetype("assets/Arial.ttf", 9)
+    pwc_card_info = [
+        "Love this portrait? Make a donation through PawsWithCause and it's yours!",
+        "T: 206-801-0220 PawsWithCause.org / All proceeds benefit shelter animals.",
+        "Join us at the Everett Mall to help paint shelter animals: No experience needed."
+    ]
+    img = Image.new('RGB', (996, 105), color=(255, 255, 255))
+    font = ImageFont.truetype("assets/Arial.ttf", 27)
     draw = ImageDraw.Draw(img)
     y_text = 0
     
-    for line in PWC_CARD_INFO:
-        line_width, line_height = font.getsize(line)
+    for line in pwc_card_info:
+        line_height = font.getsize(line)[1]
         draw.text(
             (0, y_text),
             line,
@@ -27,21 +23,21 @@ def closing_text():
             fill=(19, 50, 245)
         )
         y_text += line_height
-    img.save()
+    img.save('closing_statment.png')
 
 
 def resize_photograph(photo):
-    base_width = 120
+    base_width = 360
     width_percentage = base_width / photo.size[0]
     height = int(photo.size[1] * width_percentage)
     return photo.resize((base_width, height), Image.LANCZOS)
 
 
 def text_generation(animal_description):
-    img = Image.new('RGB', (200, 180), color=(255, 255, 255))
-    font = ImageFont.truetype("assets/Arial.ttf", 10)
+    img = Image.new('RGB', (600, 540), color=(255, 255, 255))
+    font = ImageFont.truetype("assets/Arial.ttf", 30)
     
-    lines = textwrap.wrap(animal_description, width=40)
+    lines = textwrap.wrap(animal_description, width=42)
     if len(lines) > 12:
         line_number = 11
         while line_number > 0:
@@ -76,25 +72,24 @@ def text_generation(animal_description):
 
 
 def create_card(animal_info):
-    #need to scale this up to 1050w x 600h. x3 larger
-    card = Image.new('RGB', (350, 200), color=(255, 255, 255))
+    card = Image.new('RGB', (1050, 600), color=(255, 255, 255))
 
     photograph = Image.open(f'photos/{animal_info[0]}.jpg')
     photograph = resize_photograph(photograph)
-    card.paste(photograph, (10, 10))
+    card.paste(photograph, (30, 30))
 
     text = text_generation(animal_info[2])
-    card.paste(text, (140, 8))
+    card.paste(text, (420, 24))
 
     closing_text = Image.open('assets/closing_statement.png')
-    card.paste(closing_text, (10, 155))
+    card.paste(closing_text, (30, 465))
 
     return card
 
 
 def create_pdf(card):
     pdf = Image.new('RGB', (2550, 3300), color=(255, 255, 255))
-    y_start = 300
+    y_start = 150
     for _ in range(5):
         pdf.paste(card, (150, y_start))
         pdf.paste(card, (1275 , y_start))
@@ -114,6 +109,5 @@ def main(spreadsheet):
 
 
 if __name__ == "__main__":
-    main(SPREADSHEET)
-    # text_generation()
-    # closing_text()
+    main('assets/PWC-Spreadsheet.csv')
+    closing_text()
