@@ -105,9 +105,8 @@ def main(spreadsheet):
             card = create_card(animal)
             pdf = create_pdf(card)
             pdf.show()
-            # pdf.save(f'{animal[0]}.pdf')
+            pdf.save(f'{animal[0]}.pdf')
 
 
 if __name__ == "__main__":
     main('assets/PWC-Spreadsheet.csv')
-    closing_text()
