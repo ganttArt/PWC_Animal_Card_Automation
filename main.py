@@ -1,7 +1,10 @@
+import os
 import csv
 import textwrap
 from PIL import Image, ImageDraw, ImageFont
+from flask import Flask, render_template, request
 
+app = Flask(__name__)
 
 def closing_text():
     pwc_card_info = [
@@ -97,16 +100,32 @@ def create_pdf(card):
     return pdf
 
 
-def main(spreadsheet):
-    with open(spreadsheet) as csvfile:
-        animals_spreadsheet = csv.reader(csvfile)
+# def main(spreadsheet):
+#     with open(spreadsheet) as csvfile:
+#         animals_spreadsheet = csv.reader(csvfile)
 
-        for animal in animals_spreadsheet:
-            card = create_card(animal)
-            pdf = create_pdf(card)
-            pdf.show()
-            pdf.save(f'{animal[0]}.pdf')
+#         for animal in animals_spreadsheet:
+#             card = create_card(animal)
+#             pdf = create_pdf(card)
+#             pdf.show()
+#             pdf.save(f'{animal[0]}.pdf')
+
+
+@app.route('/', methods=['GET', 'POST'])
+def main():
+    if request.method == 'POST':
+        return render_template('generated_pdf.jinja2')
+    else:
+        return render_template('main.jinja2')
+
+
+@app.route('/generated_card/')
+def generated_pdf():
+    return render_template('generated_pdf.jinja2')
+
 
 
 if __name__ == "__main__":
-    main('assets/PWC-Spreadsheet.csv')
+    # main('assets/PWC-Spreadsheet.csv')
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)

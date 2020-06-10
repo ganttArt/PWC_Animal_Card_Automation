@@ -1,0 +1,13 @@
+{% extends 'base.jinja2' %}
+
+{% block content %}
+<form method="POST">
+    <label for='shelter_phone'>Shelter Phone #:</label>
+    <input type='text' id='shelter_phone' name='shelter_phone'>
+
+    <label for='shelter_email'>Shelter Email:</label>
+    <input type='text' id='shelter_email' name='shelter_email'>
+
+    <input type="submit" value="Submit">
+</form>
+{% endblock content %}
