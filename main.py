@@ -1,10 +1,11 @@
 import os
-import csv
 import textwrap
-from PIL import Image, ImageDraw, ImageFont
-from flask import Flask, render_template, request
+from PIL import Image, ImageDraw, ImageFont, UnidentifiedImageError
+from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
+app.secret_key = b'\xd6\x13\x02\xd1-\xa6\x04\x8c!K478\xdfr^\xbd\x0b\xc62\xf7q\xe1\x98'
+# app.secret_key = os.environ.get('SECRET_KEY').encode()
 
 def closing_text():
     pwc_card_info = [
@@ -74,14 +75,13 @@ def text_generation(animal_description):
     return img
 
 
-def create_card(animal_info):
+def create_card(image, email, phone, description):
     card = Image.new('RGB', (1050, 600), color=(255, 255, 255))
 
-    photograph = Image.open(f'photos/{animal_info[0]}.jpg')
-    photograph = resize_photograph(photograph)
-    card.paste(photograph, (30, 30))
+    image = resize_photograph(image)
+    card.paste(image, (30, 30))
 
-    text = text_generation(animal_info[2])
+    text = text_generation(description)
     card.paste(text, (420, 24))
 
     closing_text = Image.open('assets/closing_statement.png')
@@ -100,21 +100,24 @@ def create_pdf(card):
     return pdf
 
 
-# def main(spreadsheet):
-#     with open(spreadsheet) as csvfile:
-#         animals_spreadsheet = csv.reader(csvfile)
-
-#         for animal in animals_spreadsheet:
-#             card = create_card(animal)
-#             pdf = create_pdf(card)
-#             pdf.show()
-#             pdf.save(f'{animal[0]}.pdf')
-
-
 @app.route('/', methods=['GET', 'POST'])
 def main():
     if request.method == 'POST':
-        return render_template('generated_pdf.jinja2')
+        try:
+            image = Image.open(request.files['file'])
+        except UnidentifiedImageError as ex:
+            print(ex)
+            return render_template('main.jinja2', error='Image error: Please try again.')
+
+        shelter_email = request.form['shelter_email']
+        shelter_phone = request.form['shelter_phone']
+        animal_description = request.form['description']
+
+        card = create_card(image, shelter_email, shelter_phone, animal_description)
+        card.show()
+        return render_template('generated_pdf.jinja2',
+                                # image=image
+                                )
     else:
         return render_template('main.jinja2')
 
@@ -122,7 +125,6 @@ def main():
 @app.route('/generated_card/')
 def generated_pdf():
     return render_template('generated_pdf.jinja2')
-
 
 
 if __name__ == "__main__":

@@ -1,23 +1,24 @@
 {% extends 'base.jinja2' %}
 
 {% block content %}
-<form method="POST">
-    <input type='file' id='image_file' name='image_file'>
-    <br>
-    <br>
-    <label for='shelter_email'>Shelter Email:</label>
-    <input type='text' id='shelter_email' name='shelter_email'>
-    <br>
-    <br>
-    <label for='shelter_phone'>Shelter Phone #:</label>
-    <input type='text' id='shelter_phone' name='shelter_phone'>
-    <br>
-    <br>
-    <label for='description'>Animal Description:</label>
-    <br>
-    <textarea rows='12' cols='38' name='description' maxlength='465' style="resize:none;"></textarea>
-    <br>
-    <br>
-    <input type="submit" value="Generate PDF">
-</form>
+    <form method="POST" enctype=multipart/form-data>
+        {% if error %}<span class="error">{{ error }}<br>{% endif %}
+        <input type=file name=file accept="image/*">
+        <br>
+        <br>
+        <label for='shelter_email'>Shelter Email:</label>
+        <input type='text' id='shelter_email' name='shelter_email'>
+        <br>
+        <br>
+        <label for='shelter_phone'>Shelter Phone #:</label>
+        <input type='text' id='shelter_phone' name='shelter_phone'>
+        <br>
+        <br>
+        <label for='description'>Animal Description:</label>
+        <br>
+        <textarea rows='12' cols='38' name='description' maxlength='465' style="resize:none;"></textarea>
+        <br>
+        <br>
+        <input type="submit" value="Generate PDF">
+    </form>
 {% endblock content %}
