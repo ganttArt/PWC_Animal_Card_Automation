@@ -2,12 +2,22 @@
 
 {% block content %}
 <form method="POST">
-    <label for='shelter_phone'>Shelter Phone #:</label>
-    <input type='text' id='shelter_phone' name='shelter_phone'>
-
+    <input type='file' id='image_file' name='image_file'>
+    <br>
+    <br>
     <label for='shelter_email'>Shelter Email:</label>
     <input type='text' id='shelter_email' name='shelter_email'>
-
-    <input type="submit" value="Submit">
+    <br>
+    <br>
+    <label for='shelter_phone'>Shelter Phone #:</label>
+    <input type='text' id='shelter_phone' name='shelter_phone'>
+    <br>
+    <br>
+    <label for='description'>Animal Description:</label>
+    <br>
+    <textarea rows='12' cols='38' name='description' maxlength='465' style="resize:none;"></textarea>
+    <br>
+    <br>
+    <input type="submit" value="Generate PDF">
 </form>
 {% endblock content %}
