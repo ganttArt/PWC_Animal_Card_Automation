@@ -20,11 +20,12 @@ def main():
             return render_template('main.jinja2', error='Image error: Please try again.')
 
         animal_name = request.form['animal_name']
+        shelter_name = request.form['shelter_name']
         shelter_email = request.form['shelter_email']
         shelter_phone = request.form['shelter_phone']
         animal_description = request.form['description']
 
-        card = create_card(image, shelter_email, shelter_phone, animal_description)
+        card = create_card(image, shelter_name, shelter_email, shelter_phone, animal_description)
         pdf = create_pdf(card)
 
         if animal_name == '':
@@ -34,8 +35,7 @@ def main():
             filename = f'finished_pdfs/{animal_name}.pdf'
 
         pdf.show()
-        pdf.save(filename)
-        # subprocess.Popen([filename], shell=True)
+        # pdf.save(filename)
         return render_template('main.jinja2')
 
     return render_template('main.jinja2')

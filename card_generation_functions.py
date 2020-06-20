@@ -34,7 +34,7 @@ def text_generation(animal_description):
     draw = ImageDraw.Draw(img)
     y_text = 0
     for line in lines:
-        line_width, line_height = font.getsize(line)
+        line_height = font.getsize(line)[1]
         draw.text(
             (0, y_text),
             line,
@@ -46,7 +46,38 @@ def text_generation(animal_description):
     return img
 
 
-def create_card(image, email, phone, description):
+def generate_shelter_info(name, email, phone):
+    # define text variable by the amount of information given
+    if email and phone:
+        text = email + '  ' + phone
+    elif email and name:
+        text = name + ': ' + email
+    elif phone and name:
+        text = name + ': ' + phone
+    elif email:
+        text = 'Shelter: ' + email
+    elif phone:
+        text = 'Shelter: ' + phone
+    elif name:
+        text = 'Contact ' + name + ' for more info.'
+    else:
+        text = 'Contact PawsWithCause for more info.'
+    
+    # define text image size
+    if len(text) > 40:
+        img = Image.new('RGB', (996, 40), color=(255, 255, 255))
+    else:
+        img = Image.new('RGB', (600, 40), color=(255, 255, 255))
+
+    # draw text onto image
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype("assets/Arial.ttf", 30)
+    draw.text((0, 0), text, font=font, fill=0)
+    
+    return img
+    
+
+def create_card(image, shelter_name, email, phone, description):
     card = Image.new('RGB', (1050, 600), color=(255, 255, 255))
 
     image = resize_photograph(image)
@@ -54,6 +85,12 @@ def create_card(image, email, phone, description):
 
     text = text_generation(description)
     card.paste(text, (420, 24))
+
+    shelter_info = generate_shelter_info(shelter_name, email, phone)
+    if shelter_info.size[0] == 600:
+        card.paste(shelter_info, (420, 432))
+    else:
+        card.paste(shelter_info, (30, 432))
 
     closing_text = Image.open('assets/closing_text.png')
     card.paste(closing_text, (30, 465))
