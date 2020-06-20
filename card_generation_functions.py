@@ -1,5 +1,5 @@
 import textwrap
-from PIL import Image, ImageDraw, ImageFont, UnidentifiedImageError
+from PIL import Image, ImageDraw, ImageFont
 
 def resize_photograph(photo):
     base_width = 360
@@ -62,7 +62,7 @@ def generate_shelter_info(name, email, phone):
         text = 'Contact ' + name + ' for more info.'
     else:
         text = 'Contact PawsWithCause for more info.'
-    
+
     # define text image size
     if len(text) > 40:
         img = Image.new('RGB', (996, 40), color=(255, 255, 255))
@@ -73,9 +73,9 @@ def generate_shelter_info(name, email, phone):
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype("assets/Arial.ttf", 30)
     draw.text((0, 0), text, font=font, fill=0)
-    
+
     return img
-    
+
 
 def create_card(image, shelter_name, email, phone, description):
     card = Image.new('RGB', (1050, 600), color=(255, 255, 255))

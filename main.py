@@ -1,16 +1,16 @@
 import os
 from datetime import datetime
 from PIL import Image, UnidentifiedImageError
-from flask import Flask, render_template, request, redirect
-from card_generation_functions import resize_photograph, text_generation, create_card, create_pdf
+from flask import Flask, render_template, request
+from card_generation_functions import create_card, create_pdf
 
 
-app = Flask(__name__)
+APP = Flask(__name__)
 # app.secret_key = b'\xd6\x13\x02\xd1-\xa6\x04\x8c!K478\xdfr^\xbd\x0b\xc62\xf7q\xe1\x98'
 # app.secret_key = os.environ.get('SECRET_KEY').encode()
 
 
-@app.route('/', methods=['GET', 'POST'])
+@APP.route('/', methods=['GET', 'POST'])
 def main():
     if request.method == 'POST':
         try:
@@ -30,7 +30,8 @@ def main():
 
         if animal_name == '':
             date = datetime.now()
-            filename = f'finished_pdfs/{date.year}{date.month}{date.day}{date.hour}{date.minute}{date.second}.pdf'
+            date = f'{date.year}{date.month}{date.day}{date.hour}{date.minute}{date.second}'
+            filename = f'finished_pdfs/{date}.pdf'
         else:
             filename = f'finished_pdfs/{animal_name}.pdf'
 
@@ -42,5 +43,5 @@ def main():
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    PORT = int(os.environ.get("PORT", 5000))
+    APP.run(host='0.0.0.0', port=PORT, debug=True)
