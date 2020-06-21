@@ -1,7 +1,8 @@
 import os
+import io
 from datetime import datetime
 from PIL import Image, UnidentifiedImageError
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from card_generation_functions import create_card, create_pdf
 
 
@@ -19,7 +20,6 @@ def main():
             print(ex)
             return render_template('main.jinja2', error='Image error: Please try again.')
 
-        animal_name = request.form['animal_name']
         shelter_name = request.form['shelter_name']
         shelter_email = request.form['shelter_email']
         shelter_phone = request.form['shelter_phone']
@@ -28,18 +28,12 @@ def main():
         card = create_card(image, shelter_name, shelter_email, shelter_phone, animal_description)
         pdf = create_pdf(card)
 
-        if animal_name == '':
-            date = datetime.now()
-            date = f'{date.year}{date.month}{date.day}{date.hour}{date.minute}{date.second}'
-            filename = f'finished_pdfs/{date}.pdf'
-        else:
-            filename = f'finished_pdfs/{animal_name}.pdf'
-
-        pdf.show()
-        # pdf.save(filename)
+        output = io.BytesIO()
+        pdf.convert('RGB').save(output, format='PDF')
+        output.seek(0, 0)
+        return send_file(output, mimetype='application/pdf', as_attachment=False)
+    else:
         return render_template('main.jinja2')
-
-    return render_template('main.jinja2')
 
 
 if __name__ == "__main__":

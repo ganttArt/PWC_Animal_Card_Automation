@@ -2,10 +2,6 @@
 
 {% block content %}
     <form method="POST" enctype=multipart/form-data>
-        <label for='animal_name'>Animal Name:</label>
-        <input type='text' name='animal_name'>
-        <br>
-        <br>
         {% if error %}<span class="error">{{ error }}<br>{% endif %}
         <label for='file'>Animal Photo:</label>
         <input type=file name=file accept="image/*">
