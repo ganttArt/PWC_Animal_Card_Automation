@@ -102,7 +102,7 @@ def create_pdf(card):
     pdf = Image.new('RGB', (2550, 3300), color=(255, 255, 255))
     y_start = 150
     for _ in range(5):
-        pdf.paste(card, (150, y_start))
+        pdf.paste(card, (225, y_start))
         pdf.paste(card, (1275, y_start))
         y_start += 600
     return pdf

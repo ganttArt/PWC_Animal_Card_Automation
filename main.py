@@ -7,8 +7,7 @@ from card_generation_functions import create_card, create_pdf
 
 
 APP = Flask(__name__)
-# app.secret_key = b'\xd6\x13\x02\xd1-\xa6\x04\x8c!K478\xdfr^\xbd\x0b\xc62\xf7q\xe1\x98'
-# app.secret_key = os.environ.get('SECRET_KEY').encode()
+# APP.secret_key = os.environ.get('SECRET_KEY').encode()
 
 
 @APP.route('/', methods=['GET', 'POST'])
@@ -38,4 +37,4 @@ def main():
 
 if __name__ == "__main__":
     PORT = int(os.environ.get("PORT", 5000))
-    APP.run(host='0.0.0.0', port=PORT, debug=True)
+    APP.run(host='0.0.0.0', port=PORT, debug=False)
