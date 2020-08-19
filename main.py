@@ -9,10 +9,10 @@ from flask import Flask, render_template, request, send_file
 from card_generation_functions import create_card, create_pdf
 
 
-APP = Flask(__name__)
+app = Flask(__name__)
 # APP.secret_key = os.environ.get('SECRET_KEY').encode()
 
-@APP.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def animal_id_entry():
     if request.method == 'POST':
         try:
@@ -45,7 +45,7 @@ def animal_id_entry():
         return render_template('animal_id_entry.jinja2')
 
 
-@APP.route('/manual_entry', methods=['GET', 'POST'])
+@app.route('/manual_entry', methods=['GET', 'POST'])
 def manual_entry():
     if request.method == 'POST':
         try:
@@ -72,4 +72,4 @@ def manual_entry():
 
 if __name__ == "__main__":
     PORT = int(os.environ.get("PORT", 5000))
-    APP.run(host='0.0.0.0', port=PORT, debug=False)
+    app.run(host='0.0.0.0', port=PORT, debug=False)
