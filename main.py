@@ -11,13 +11,13 @@ APP = Flask(__name__)
 
 
 @APP.route('/', methods=['GET', 'POST'])
-def main():
+def manual_entry():
     if request.method == 'POST':
         try:
             image = Image.open(request.files['file'])
         except UnidentifiedImageError as ex:
             print(ex)
-            return render_template('main.jinja2', error='Image error: Please try again.')
+            return render_template('manual_entry.jinja2', error='Image error: Please try again.')
 
         shelter_name = request.form['shelter_name']
         shelter_email = request.form['shelter_email']
@@ -32,9 +32,9 @@ def main():
         output.seek(0, 0)
         return send_file(output, mimetype='application/pdf', as_attachment=False)
     else:
-        return render_template('main.jinja2')
+        return render_template('manual_entry.jinja2')
 
 
 if __name__ == "__main__":
     PORT = int(os.environ.get("PORT", 5000))
-    APP.run(host='0.0.0.0', port=PORT, debug=False)
+    APP.run(host='0.0.0.0', port=PORT, debug=True)
