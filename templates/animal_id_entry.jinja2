@@ -1,0 +1,13 @@
+{% extends 'base.jinja2' %}
+
+{% block content %}
+    <form method="POST" enctype=multipart/form-data>
+        {% if error %}<span class="error">{{ error }}<br>{% endif %}
+        
+        <label for='animal_id'>Animal ID #:</label>
+        <input type='text' id='animal_id' name='animal_id'>
+        <br>
+        <br>
+        <input type="submit" value="Generate PDF" class="btn btn-secondary">
+    </form>
+{% endblock content %}
