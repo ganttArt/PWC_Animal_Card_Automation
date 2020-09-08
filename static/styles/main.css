@@ -1,0 +1,21 @@
+.jumbotron {
+    padding: 2rem 2rem;
+}
+
+/* for h2 */
+@media (min-width: 576px){
+	.col-sm-6 {
+		max-width: 100%;
+	}
+}
+
+@media (min-width: 768px){
+	.col-md-7 {
+		max-width: 100%;
+	}
+}
+
+#main-title{
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}

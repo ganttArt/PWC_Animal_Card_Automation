@@ -19,10 +19,10 @@ def animal_id_entry():
             animal_id = int(request.form['animal_id'])
             animal_info = requests.get(f'https://pwc-volunteers-backend.herokuapp.com/animals/card_generator/{animal_id}')
             if animal_info.text == '':
-                return render_template('animal_id_entry.jinja2', error='Animal id is not in PWC database')
+                return render_template('animal_id_entry.jinja2', error='Animal ID is not in PWC database')
         except ValueError as ex:
             print(ex)
-            return render_template('animal_id_entry.jinja2', error='Animal Id must be a number')
+            return render_template('animal_id_entry.jinja2', error='Animal ID must be a number')
         
         animal_info = json.loads(animal_info.text)
 

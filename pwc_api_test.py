@@ -4,14 +4,15 @@ from PIL import Image
 from io import BytesIO
 
 def main():
-    response = requests.get('https://pwc-volunteers-backend.herokuapp.com/animals/card_generator/1')
-    dictionary = json.loads(response.text)
+    response = requests.get('https://pwc-volunteers-backend.herokuapp.com/animals/card_generator/3')
+    print(response)
+    '''dictionary = json.loads(response.text)
     print(dictionary['photos'][0]['file_path'])
 
     response = requests.get('https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/48743544/1/?bust=1597119230')
     # print(response.text)
     im = Image.open(BytesIO(response.content))
-    im.show()
+    im.show()'''
 '''
 {"id":1,
  "description":"You can fill out an adoption application online on our official website.Interested in adopting? See our adoption proccess.\nSadie is a lovely adult malamute that wants to be your one and only! She has been well cared for and loved; however, has to find a new home due to an incident with another dog. Other than needing to be an only pet and careful around other dogs, she really has no other issues. She walks well on leash and knows a number of commands - and even follows them quite well on leash and about half the time when not on leash. (The other half of the time off leash she wants to convince us she just didn't hear the commands...oh malamutes!) On walks, she does well with the 'wait' command, though will pull to get to another dog, so needs someone strong enough to keep her from doing that. She enjoys pulling carts, which is good, as she needs exercise to lose a little extra 'fluff'. This friendly girl loves people and has spent time with older children that she did very well with. Sadie enjoys attention and getting pets and belly rubs. She likes to play with toys and will bring a toy over to encourage playtime. Interested in sponsoring? See our sponsorship information.",
