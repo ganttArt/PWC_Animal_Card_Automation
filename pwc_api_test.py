@@ -4,8 +4,11 @@ from PIL import Image
 from io import BytesIO
 
 def main():
-    response = requests.get('https://pwc-volunteers-backend.herokuapp.com/animals/card_generator/3')
-    print(response)
+    response = requests.get('https://pwc-volunteers-backend.herokuapp.com/shelters')
+    data = json.loads(response.text)
+    # print(type(data))
+    for value in data:
+        print(value, '\n')
     '''dictionary = json.loads(response.text)
     print(dictionary['photos'][0]['file_path'])
 
