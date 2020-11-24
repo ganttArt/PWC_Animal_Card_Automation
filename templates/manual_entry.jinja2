@@ -7,23 +7,20 @@
         <input type=file name=file accept="image/*">
         <br>
         <br>
-        <label for='shelter_name'>Shelter Name:</label>
-        <input type='text' id='shelter_name' name='shelter_name'>
-        <br>
-        <br>
-        <label for='shelter_email'>Shelter Email:</label>
-        <input type='text' id='shelter_email' name='shelter_email'>
-        <br>
-        <br>
-        <label for='shelter_phone'>Shelter Phone #:</label>
-        <input type='text' id='shelter_phone' name='shelter_phone'>
-        <br>
+        <div class="form-group">
+            <label for="shelter">Shelter</label>
+            <select multiple="" class="form-control" id="shelter" name="shelter">
+                {% for k, v in shelters | dictsort -%}
+                    <option value='{{k}}'>{{k}}</option>
+                {% endfor %}
+            </select>
+        </div>
         <br>
         <label for='description'>Animal Description:</label>
         <br>
         <textarea rows='12' cols='40' name='description' maxlength='504' style="resize:none;"></textarea>
         <br>
         <br>
-        <input type="submit" value="Generate PDF" class="btn btn-secondary">
+        <input type="submit" value="Generate PDF" class="btn btn-secondary" onClick="loadingAnimation()">
     </form>
 {% endblock content %}
